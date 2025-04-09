@@ -151,6 +151,12 @@ Astronomer must be logged into the system before performing this use case.
 
 
 # Sequence Diagram
+## Sequence Diagram 1 Create a Science Plan
+
+## Sequence Diagram 2 Test a Science Plan
+![TestSciencePlan](https://github.com/user-attachments/assets/a9bde868-7de5-4d31-aec7-9d56795fa8a6)
+## Sequence Diagram 3 Submit a Science Plan
+![submit](https://github.com/user-attachments/assets/4547da61-69a5-470a-a0ff-55c2a1d918a2)
 
 
 
