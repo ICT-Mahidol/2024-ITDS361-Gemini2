@@ -147,7 +147,7 @@ Astronomer must be logged into the system before performing this use case.
 
 
 # Class Diagram
-![488892923_2409890599370892_7227764949384657703_n](https://github.com/user-attachments/assets/c284b7be-290a-401c-8e8d-fe99ff86e8d6)
+![Image](https://github.com/user-attachments/assets/fa8197b3-e517-46b7-8c6a-8b57cc5c18a3)
 
 
 # Sequence Diagram
