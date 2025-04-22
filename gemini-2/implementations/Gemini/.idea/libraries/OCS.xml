@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="OCS">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Gemini/Gemini/lib/OCS.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

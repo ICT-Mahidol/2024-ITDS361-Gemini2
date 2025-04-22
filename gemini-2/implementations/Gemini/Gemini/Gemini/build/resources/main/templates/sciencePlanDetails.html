@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Science Plan Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .actions { position: absolute; top: 20px; right: 20px; }
+        .actions button { margin-left: 10px; }
+    </style>
+</head>
+<body>
+<h1>Science Plan Details</h1>
+<div class="actions">
+    <button onclick="cancel()">Cancel</button>
+    <button onclick="confirmPlan()">Confirm</button>
+</div>
+<div id="planDetails"></div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.pathname.split('/').pop());
+    const planId = window.location.pathname.split('/').pop();
+
+    // Load science plan details
+    fetch(`/scienceplans/${planId}`)
+        .then(response => response.json())
+        .then(plan => {
+            const details = document.getElementById('planDetails');
+            details.innerHTML = `
+                    <p><strong>ID:</strong> ${plan.planId}</p>
+                    <p><strong>Plan Name:</strong> ${plan.planName}</p>
+                    <p><strong>Status:</strong> ${plan.status}</p>
+                    <p><strong>Description:</strong> ${plan.description}</p>
+                `;
+        });
+
+    function cancel() {
+        window.location.href = '/all_science_plans.html';  // Back to list
+    }
+
+    function confirmPlan() {
+        fetch(`/scienceplans/${planId}/confirm`, { method: 'POST' })
+            .then(() => window.location.href = '/ocs_submission.html');
+    }
+</script>
+</body>
+</html>
