@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/scienceplans")
+@RequestMapping("/api/scienceplans")
 public class SciencePlanController {
     OCS o = new OCS();
 
