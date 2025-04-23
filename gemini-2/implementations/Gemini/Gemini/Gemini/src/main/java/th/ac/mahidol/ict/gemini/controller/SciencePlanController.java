@@ -43,6 +43,18 @@ public class SciencePlanController {
         return o.getAllSciencePlans();
     }
 
+    @PostMapping("/{id}/test")
+    public ResponseEntity<String> testSciencePlan(@PathVariable int id) {
+        SciencePlan plan = o.getSciencePlanByNo(id);
+        if (plan == null) {
+            return ResponseEntity.status(404).body("Science Plan not found.");
+        }
+
+        o.updateSciencePlanStatus(id, SciencePlan.STATUS.TESTED);
+        return ResponseEntity.ok("Science Plan " + id + " is now marked as TESTED.");
+    }
+
+
     @GetMapping("/{id}")
     public SciencePlan getSciencePlanById(@PathVariable int id) {
         return o.getSciencePlanByNo(id);
@@ -53,6 +65,8 @@ public class SciencePlanController {
         o.updateSciencePlanStatus(id, SciencePlan.STATUS.SUBMITTED);
         return ResponseEntity.ok("Science Plan " + id + " confirmed (SUBMITTED) in OCS.");
     }
+
+
 
 }
 
