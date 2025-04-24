@@ -54,7 +54,6 @@ public class SciencePlanController {
         return ResponseEntity.ok("Science Plan " + id + " is now marked as TESTED.");
     }
 
-
     @GetMapping("/{id}")
     public SciencePlan getSciencePlanById(@PathVariable int id) {
         return o.getSciencePlanByNo(id);
@@ -62,10 +61,18 @@ public class SciencePlanController {
 
     @PostMapping("/{id}/confirm")
     public ResponseEntity<String> confirmSciencePlan(@PathVariable int id) {
+        SciencePlan plan = o.getSciencePlanByNo(id);
+        if (plan == null) {
+            return ResponseEntity.status(404).body("Science Plan not found.");
+        }
+
+        if (plan.getStatus() != SciencePlan.STATUS.TESTED) {
+            return ResponseEntity.status(400).body("Science Plan " + id + " cannot be confirmed because it is not in TESTED status.");
+        }
+
         o.updateSciencePlanStatus(id, SciencePlan.STATUS.SUBMITTED);
         return ResponseEntity.ok("Science Plan " + id + " confirmed (SUBMITTED) in OCS.");
     }
-
 
 
 }
