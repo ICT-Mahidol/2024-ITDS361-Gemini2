@@ -25,4 +25,20 @@ public class SciencePlanPageController {
         return service.createSciencePlanFromDTO(dto);
     }
 
+    @PostMapping("/{id}/test")
+    public String testSciencePlan(@PathVariable int id, Model model) {
+        SciencePlan plan = ocs.getSciencePlanByNo(id);
+
+        if (plan == null) {
+            model.addAttribute("error", "Science Plan not found.");
+            return "error"; // แสดง error.html
+        }
+
+        ocs.updateSciencePlanStatus(id, SciencePlan.STATUS.TESTED);
+        model.addAttribute("message", "Science Plan " + id + " is now marked as TESTED.");
+        model.addAttribute("sciencePlan", plan);
+
+        return "testScienceplan"; //
+    }
+
 }
