@@ -188,7 +188,9 @@
                 const details = document.createElement('div');
                 const expandIcon = document.createElement('span');
 
-                wrapper.ondblclick = () => window.location.href = "http://localhost:8080/scienceplans/test";
+                wrapper.ondblclick = () => window.location.href = `/scienceplans/test?id=${plan.planNo}`;
+
+
 
                 summary.className = 'plan-summary';
                 summary.innerHTML = `<div class="summary-info">
