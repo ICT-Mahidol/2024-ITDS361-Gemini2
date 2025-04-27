@@ -109,13 +109,13 @@
     }
 
     select, option {
-      color: #e0e6f8; /* สีข้อความที่มองเห็นง่าย */
-      background-color: #1a1d35; /* สีพื้นหลังที่ตัดกับข้อความ */
+      color: #e0e6f8;
+      background-color: #1a1d35;
     }
 
     select:focus, option:focus {
-      background-color: rgba(0, 198, 255, 0.1); /* เมื่อเลือกแล้ว */
-      color: #ffffff; /* เมื่อเลือกข้อความจะชัดเจน */
+      background-color: rgba(0, 198, 255, 0.1);
+      color: #ffffff;
     }
   </style>
 </head>
@@ -143,7 +143,10 @@
     <textarea name="objectives" required></textarea>
 
     <label>Star System</label>
-    <input type="text" name="starSystem" required>
+    <select name="starSystem" required>
+      <option value="" disabled selected>Select Star System</option>
+      <option th:each="constellation : ${constellations}" th:value="${constellation}" th:text="${constellation}"></option>
+    </select>
 
     <label>Start Date</label>
     <input type="datetime-local" name="startDate" required>
