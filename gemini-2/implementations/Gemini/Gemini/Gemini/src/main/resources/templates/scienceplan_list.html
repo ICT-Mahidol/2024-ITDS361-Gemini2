@@ -3,142 +3,208 @@
 <head>
   <meta charset="UTF-8" />
   <title>Science Plans</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 20px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(circle at top left, #0b0c1d, #1a1d35);
-      color: #f0f0f0;
+      font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at 30% 30%, #0b0c1d, #1a1d35);
+      color: #e0e6f8;
+      min-height: 100vh;
     }
 
     h1 {
       text-align: center;
-      font-size: 2.5em;
-      color: #e6f7ff;
-      margin-bottom: 30px;
-      text-shadow: 0 0 5px #00c8ff;
+      font-size: 3em;
+      color: #00d9ff;
+      margin-bottom: 40px;
+      text-shadow: 0 0 15px #00c8ff;
     }
 
     .top-bar {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .top-bar label {
+      font-weight: bold;
+      color: #7ec9ff;
     }
 
     .top-bar select, .top-bar button {
-      margin-left: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #e0e6f8;
+      border: 1px solid #00c6ff;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-family: inherit;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .top-bar select:hover, .top-bar button:hover {
+      background: rgba(0, 198, 255, 0.1);
+      transform: scale(1.05);
+    }
+
+    #plan-container {
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .plan-summary {
-      background-color: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(0, 136, 255, 0.3);
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(0, 198, 255, 0.4);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.4s ease;
     }
 
     .plan-summary:hover {
-      box-shadow: 0 0 10px #00c6ff66;
-      transform: translateY(-2px);
+      box-shadow: 0 0 15px #00c6ff88;
+      transform: translateY(-4px);
     }
 
     .summary-info {
       display: flex;
       flex-direction: column;
+      gap: 6px;
     }
 
     .summary-info p {
       margin: 4px 0;
+      line-height: 1.4;
     }
 
     .plan-details {
       display: none;
-      background-color: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(8px);
       border-left: 4px solid #00c6ff;
-      border-radius: 0 10px 10px 0;
-      padding: 15px;
+      border-radius: 0 16px 16px 0;
+      padding: 20px;
       margin-top: 10px;
-      margin-bottom: 20px;
-      animation: fadeIn 0.4s ease-in-out;
+      animation: fadeIn 0.5s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-5px); }
+      from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .action-button {
-      background: linear-gradient(90deg, #007cf0, #00dfd8);
+      background: linear-gradient(135deg, #00c6ff, #007cf0);
       color: #fff;
       border: none;
       border-radius: 20px;
       padding: 8px 16px;
       font-weight: bold;
-      margin-top: 5px;
-      transition: background 0.3s ease, transform 0.2s ease;
-      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-family: inherit;
+      letter-spacing: 0.5px;
     }
 
     .action-button:hover {
-      background: linear-gradient(90deg, #005bea, #00c6fb);
-      transform: scale(1.05);
+      background: linear-gradient(135deg, #00aaff, #005bea);
+      transform: scale(1.1);
     }
 
     .expand-icon {
-      font-size: 1.2em;
-      margin-left: 10px;
+      font-size: 1.5em;
+      margin-left: 20px;
       cursor: pointer;
-      color: #00c6ff;
+      color: #00d9ff;
+      transition: transform 0.3s ease;
+    }
+
+    .expand-icon:hover {
+      transform: scale(1.2);
     }
 
     strong {
       color: #ffe484;
     }
 
-    /* Modal styles */
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
-      z-index: 999;
+      z-index: 9999;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
     }
 
     .modal-content {
-      background-color: #1a1d35;
+      background: rgba(26, 29, 53, 0.9);
       margin: 15% auto;
-      padding: 20px;
+      padding: 30px;
       border: 1px solid #00c6ff;
-      width: 300px;
-      border-radius: 10px;
+      width: 320px;
+      border-radius: 16px;
       color: #e6f7ff;
       text-align: center;
+      box-shadow: 0 0 20px #00c8ff;
     }
 
     .close-button {
       background: none;
       border: none;
       color: #00c6ff;
-      font-size: 1.2em;
+      font-size: 1.4em;
       cursor: pointer;
+      margin-top: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .close-button:hover {
+      transform: rotate(90deg) scale(1.2);
+    }
+
+    select {
+    background-color: #1a1d35;
+    color: #e6f7ff;
+    border: 1px solid #00c6ff;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 1em;
+    appearance: none;
+    }
+
+    select option {
+      background-color: #1a1d35;
+      color: #e6f7ff;
+    }
+
+    .plan-details ol {
+      padding-left: 20px;
       margin-top: 10px;
     }
 
+    .plan-details ol li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
   </style>
 </head>
+
 <body>
 <h1>All Science Plans</h1>
+
 <div class="top-bar">
   <label for="status-filter">Filter:</label>
   <select id="status-filter" onchange="loadPlans()">
@@ -154,14 +220,15 @@
   </select>
   <button onclick="createPlan()">Create</button>
 </div>
+
 <div id="plan-container"></div>
 
-<!-- Modal for no plans -->
 <div id="noPlansModal" class="modal">
   <div class="modal-content">
     <p>No Science Plans found!</p>
     <button onclick="createPlan()" class="action-button">Create Now</button>
-    <button onclick="closeModal()" class="close-button">Close</button>
+    <br />
+    <button onclick="closeModal()" class="close-button">✖</button>
   </div>
 </div>
 
@@ -195,7 +262,7 @@
                 summary.className = 'plan-summary';
                 summary.innerHTML = `<div class="summary-info">
                         <p><strong>ID:</strong> ${plan.planNo}</p>
-                        <p><strong>Star System:</strong> ${plan.starSystem}</p>
+                        <p><strong>Star System:</strong> <span style="margin-left:8px;">${plan.starSystem}</span></p>
                         <p><strong>Creator:</strong> ${plan.creator}</p>
                         <p><strong>Status:</strong> <span style="color: #7ec9ff">${plan.status}</span></p>
                     </div>`;

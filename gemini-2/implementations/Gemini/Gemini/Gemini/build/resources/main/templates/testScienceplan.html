@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Test Science Plan</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top left, #0b0c1d, #1a1d35);
+            color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #e6f7ff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px #00c8ff;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .top-bar button {
+            margin-left: 10px;
+        }
+
+        .plan-summary {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(0, 136, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .plan-summary:hover {
+            box-shadow: 0 0 10px #00c6ff66;
+            transform: translateY(-2px);
+        }
+
+        .summary-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .summary-info p {
+            margin: 4px 0;
+        }
+
+        .plan-details {
+            display: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #00c6ff;
+            border-radius: 0 10px 10px 0;
+            padding: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-button {
+            background: linear-gradient(90deg, #007cf0, #00dfd8);
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-weight: bold;
+            margin-top: 5px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: linear-gradient(90deg, #005bea, #00c6fb);
+            transform: scale(1.05);
+        }
+
+        .expand-icon {
+            font-size: 1.2em;
+            margin-left: 10px;
+            cursor: pointer;
+            color: #00c6ff;
+        }
+
+        strong {
+            color: #ffe484;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Test Science Plan</h1>
+<div class="top-bar">
+    <button onclick="startTest()">Start Testing</button>
+</div>
+
+<div class="plan-summary">
+    <div class="summary-info">
+        <p><strong>ID:</strong> 101</p>
+        <p><strong>Star System:</strong> Alpha Centauri</p>
+        <p><strong>Creator:</strong> Dr. Jane Doe</p>
+        <p><strong>Status:</strong> <span style="color: #7ec9ff">SAVED</span></p>
+    </div>
+    <button class="action-button" onclick="submitPlan()">Submit for Test</button>
+</div>
+
+<div id="testDetails" class="plan-details">
+    <h3>Test Results</h3>
+    <p><strong>Star System Selection:</strong> Passed</p>
+    <p><strong>Image Processing:</strong> Failed - Adjust contrast settings</p>
+    <p><strong>Telescope Location:</strong> Passed</p>
+    <p><strong>Observation Duration:</strong> Passed</p>
+    <button class="action-button" onclick="finishTest()">Finish Testing</button>
+</div>
+
+<script>
+    function getIdFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+    }
+
+    function loadSciencePlan() {
+        const id = getIdFromURL();
+        if (!id) {
+            alert('No Science Plan ID provided.');
+            return;
+        }
+
+        fetch(`/api/scienceplans/${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Science Plan not found.');
+                }
+                return response.json();
+            })
+            .then(plan => {
+                document.querySelector('.summary-info').innerHTML = `
+                    <p><strong>ID:</strong> ${plan.planNo}</p>
+                    <p><strong>Star System:</strong> ${plan.starSystem}</p>
+                    <p><strong>Creator:</strong> ${plan.creator}</p>
+                    <p><strong>Status:</strong> <span style="color: #7ec9ff">${plan.status}</span></p>
+                `;
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
+    function startTest() {
+        const id = getIdFromURL();
+        alert('Testing started for Science Plan ID ' + id);
+        document.getElementById('testDetails').style.display = 'block';
+    }
+
+    function submitPlan() {
+        const id = getIdFromURL();
+        alert('Submitting Science Plan ID ' + id + ' for testing...');
+    }
+
+    function finishTest() {
+        const id = getIdFromURL();
+        fetch(`/api/scienceplans/${id}/test`, { method: 'POST' })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to finish testing.');
+                }
+                return response.text();
+            })
+            .then(result => {
+                alert('Test completed for Science Plan ID ' + id);
+                window.location.href = '/scienceplans/lists';
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
+
+    loadSciencePlan();
+</script>
+
+
+</body>
+</html>

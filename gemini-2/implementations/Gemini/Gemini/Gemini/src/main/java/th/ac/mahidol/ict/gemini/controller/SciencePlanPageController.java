@@ -18,6 +18,7 @@ public class SciencePlanPageController {
     @GetMapping("/create")
     public String showCreateSciencePlanForm(Model model) {
         model.addAttribute("sciencePlan", new SciencePlanDTO());
+        model.addAttribute("constellations", edu.gemini.app.ocs.model.StarSystem.CONSTELLATIONS.values());
         return "createScienceplan";
     }
 
