@@ -57,6 +57,12 @@ public class SciencePlanPageController {
         return "testScienceplan";
     }
 
+    @PostMapping("/save")
+    public String saveSciencePlan(@ModelAttribute SciencePlanDTO dto) {
+        service.createSciencePlanFromDTO(dto);
+        return "redirect:/scienceplans/lists";
+    }
+
 }
 
 

@@ -162,6 +162,9 @@
     }
 
     .close-button {
+      position: absolute;
+      top: 125px;
+      right: 250px;
       background: none;
       border: none;
       color: #00c6ff;
@@ -225,10 +228,14 @@
 
 <div id="noPlansModal" class="modal">
   <div class="modal-content">
-    <p>No Science Plans found!</p>
+    <div>
+
+      <button onclick="closeModal()" class="close-button">✖</button>
+      <p>No Science Plans found!</p>
+    </div>
     <button onclick="createPlan()" class="action-button">Create Now</button>
     <br />
-    <button onclick="closeModal()" class="close-button">✖</button>
+
   </div>
 </div>
 
@@ -242,6 +249,7 @@
     fetch(url)
             .then(response => response.json())
             .then(plans => {
+              console.log("Plans data:", plans);
               const container = document.getElementById('plan-container');
               container.innerHTML = '';
 

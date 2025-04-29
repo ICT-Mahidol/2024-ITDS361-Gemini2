@@ -203,6 +203,68 @@
     <button type="submit" class="action-button">Submit</button>
   </form>
 </div>
+<script>
+  document.getElementById('sciencePlanForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+
+    // ฟังก์ชันแปลงวันที่จาก `yyyy-MM-ddTHH:mm` เป็น `dd/MM/yyyy HH:mm:ss`
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    }
+
+    const data = {
+      creator: formData.get('creator'),
+      submitter: formData.get('submitter'),
+      fundingInUSD: parseFloat(formData.get('fundingInUSD')),
+      objectives: formData.get('objectives'),
+      starSystem: formData.get('starSystem'),
+      startDate: formatDate(formData.get('startDate')), // แปลงวันที่
+      endDate: formatDate(formData.get('endDate')),     // แปลงวันที่
+      telescopeLocation: formData.get('telescopeLocation'),
+      dataProcRequirement: {
+        fileType: formData.get('dataProcRequirement.fileType'),
+        fileQuality: formData.get('dataProcRequirement.fileQuality'),
+        colorType: formData.get('dataProcRequirement.colorType'),
+        contrast: parseFloat(formData.get('dataProcRequirement.contrast')),
+        brightness: parseFloat(formData.get('dataProcRequirement.brightness')),
+        saturation: parseFloat(formData.get('dataProcRequirement.saturation')),
+        highlights: parseFloat(formData.get('dataProcRequirement.highlights')),
+        exposure: parseFloat(formData.get('dataProcRequirement.exposure')),
+        shadows: parseFloat(formData.get('dataProcRequirement.shadows')),
+        whites: parseFloat(formData.get('dataProcRequirement.whites')),
+        blacks: parseFloat(formData.get('dataProcRequirement.blacks')),
+        luminance: parseFloat(formData.get('dataProcRequirement.luminance')),
+        hue: parseFloat(formData.get('dataProcRequirement.hue')),
+      }
+    };
+
+    fetch('/scienceplans', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+            .then(response => {
+              if (!response.ok) throw new Error('Failed to create Science Plan');
+              return response.text();
+            })
+            .then(result => {
+              alert('Success: ' + result);
+              window.location.href = "/scienceplans/lists"; 
+            })
+            .catch(error => alert('Error: ' + error.message));
+  });
+</script>
 </body>
 </html>

@@ -74,6 +74,20 @@ public class SciencePlanController {
         return ResponseEntity.ok("Science Plan " + id + " confirmed (SUBMITTED) in OCS.");
     }
 
+    @GetMapping("/status/{status}")
+    public List<SciencePlan> getSciencePlansByStatus(@PathVariable String status) {
+        List<SciencePlan> allPlans = o.getAllSciencePlans();
+        List<SciencePlan> filteredPlans = new ArrayList<>();
+        for (SciencePlan plan : allPlans) {
+            if (plan.getStatus().toString().equalsIgnoreCase(status)) {
+                filteredPlans.add(plan);
+            }
+        }
+        return filteredPlans;
+    }
+
+
+
 
 }
 
